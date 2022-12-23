@@ -1,0 +1,86 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline 
+import seaborn as sns
+
+from sklearn import preprocessing
+from sklearn.model_selection import train_test_split,cross_val_score,StratifiedKFold
+from sklearn.linear_model import LogisticRegression
+
+train=pd.read_csv("C:/Users/CSE WPT/Downloads/titanic/train.csv")
+test=pd.read_csv("C:/Users/CSE WPT/Downloads/titanic/test.csv")
+
+print("Training data shape:",train.shape)
+print("Testing data shape:",test.shape)
+
+train.head()
+
+def missing_values_table(df):
+    mis_val = df.isnull().sum()
+    mis_val_percent = 100*df.isnull().sum()/len(df)
+    mis_val_table = pd.concat([mis_val,mis_val_percent],axis=1)
+    mis_val_table_ren_columns = mis_val_table.rename(columns={0:'Missing values',1:'% of Total'})
+    mis_val_table_ren_columns = mis_val_table_ren_columns[mis_val_label_ren_columns.iloc[:,1]]
+    print("Your selected dataframe has"+str(df.shape[1]+"columns.\n""There are"+str(mis_val_)))
+    return mis_val_table_ren_columns
+
+train_missing=missing_values_table(train)
+train_missing
+
+test_missing=missing_values_table(test)
+test_missing
+
+import missingno as msno
+msno.bar(train)
+
+msno.matrix(train)
+
+msno.matrix(train.sample(100))
+
+msno.matrix(train)
+
+sorted=train.sort_values('Age')
+msno.matrix(sorted)
+
+msno.heatmap(train)
+
+msno.dendrogram(train)
+
+train.isnull().sum()
+
+train_1=train.copy()
+train_1['Age'].mean()
+
+train_1.dropna(subset=['Age'],how='any',inplace=True)
+train_1['Age'].isnull().sum()
+
+from sklearn.impute import SimpleImputer
+train_constant=train.copy()
+mean_imputer=SimpleImputer(strategy='constant')
+train_constant.iloc[:,:]=mean_imputer.fit_transform(train_constant)
+train_constant.isnull().sum()
+
+from sklearn.impute import SimpleImputer
+train_most_frequent=train.copy()
+mean_imputer=SimpleImputer(strategy='most_frequent')
+train_most_frequent.iloc[:,:]=mean_imputer.fit_transform(train_most_frequent)
+train_most_frequent.isnull().sum()
+
+city_day=pd.read_csv("C:/Users/CSE WPT/Downloads/archive(9)/city_day.csv")
+city_day1=city_day.copy(deep=True)
+city_day.head()
+
+city_day_missing=missing_values_table(city_day)
+city_day_missing
+
+city_day['Xylene'][50:64]
+
+city_day.fillna(method='ffill',inplace=True)
+city_day['Xylene'][50:65]
+
+city_day['AQI'][20:30]
+
+city_day.fillna(method='bfill',inplace=True)
+city_day['AQI'][20:30]
+
